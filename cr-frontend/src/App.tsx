@@ -3,19 +3,26 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 
 const App = () => {
-  const [message,setMessage] = useState('My message 555');
+  const [courses,setCourses] = useState<any[]>([]);
 
   useEffect(() => {
     fetch('http://localhost:3000/courses')
-      .then(res => res.json())
-      .then(obj => {
-        setMessage(obj.message);
+      .then(res => {console.log(res); return res.json()})
+      .then(courses => {
+        //console.log(courses);
+        setCourses(courses);
       });
   },[]);
 
   return (
     <div className="App">
-      {message}
+      <ul>
+      {courses.map((item) => (
+        <li key={item.id}>
+          {item.number}-{item.title}
+        </li>
+      ))}
+      </ul>
     </div>
   );
 }
